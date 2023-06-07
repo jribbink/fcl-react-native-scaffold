@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import Loading from "./components/Loading";
 import Empty from "./components/Empty";
@@ -9,22 +10,13 @@ import { useCurrentUser } from "./hooks/useCurrentUser";
 import Core from "./screens/Core";
 
 export default function App() {
-  const { services, isLoading, authenticateService } = fcl.useServiceDiscovery({
-    fcl,
-  });
-
   const user = useCurrentUser();
 
-  const styles = StyleSheet.create({
-    container: {
-      width: "100%",
-      height: "100%",
-    },
-  });
-
   return (
-    <SafeAreaView style={styles.container}>
-      {user?.loggedIn ? <Core /> : <Auth />}
-    </SafeAreaView>
+    <View style={{ backgroundColor: "#f0f0f0" }}>
+      <SafeAreaView style={{ height: "100%" }}>
+        {user?.loggedIn ? <Core /> : <Auth />}
+      </SafeAreaView>
+    </View>
   );
 }

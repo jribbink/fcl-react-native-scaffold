@@ -13,6 +13,10 @@ export default function ServiceCard({
   const icon = provider?.icon || "https://placekitten.com/200/200";
 
   const styles = StyleSheet.create({
+    cardContainer: {
+      marginVertical: 10,
+      flexDirection: "row",
+    },
     card: {
       flexDirection: "row",
       backgroundColor: "lightgrey",
@@ -22,6 +26,7 @@ export default function ServiceCard({
       width: "100%",
       padding: 10,
       borderRadius: 10,
+      borderWidth: 1,
     },
     icon: {
       width: 50,
@@ -36,9 +41,11 @@ export default function ServiceCard({
   });
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.card}>
-      <Image source={{ uri: icon }} style={styles.icon} />
-      <Text style={styles.text}>{name}</Text>
-    </TouchableOpacity>
+    <View style={styles.cardContainer}>
+      <TouchableOpacity onPress={onPress} style={styles.card}>
+        <Image source={{ uri: icon }} style={styles.icon} />
+        <Text style={styles.text}>{name}</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
