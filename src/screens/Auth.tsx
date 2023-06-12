@@ -57,6 +57,7 @@ export default function Auth() {
         Welcome to the FCL React Native Scaffold 👋
       </Text>
       <Text style={styles.subHeading}>Please choose a wallet to continue</Text>
+
       <fcl.ServiceDiscovery
         fcl={fcl}
         Loading={Loading}

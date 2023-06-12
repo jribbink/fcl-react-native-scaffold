@@ -1,20 +1,26 @@
 import Constants from "expo-constants";
-import { Platform } from "react-native";
 
-const localhost = Platform.OS === "ios" ? "localhost:8080" : "10.0.2.2:8080";
+const devHost = Constants.expoConfig.extra?.devHost;
 
-const configs = {
+const FLOW_CONFIG = {
+  // This is the base configuration for FCL shared across all environments
   base: {
     "app.detail.title": "FCL React Native Scaffold",
     "app.detail.icon": "https://avatars.githubusercontent.com/u/62387156?v=4",
   },
+
+  // These are the environment specific configurations for FCL
   local: {
-    "accessNode.api": `http://${localhost}:8888`,
-    "flow.network": "https://fcl-discovery.onflow.org/local/authn",
+    "accessNode.api": `http://${devHost}:8888`,
+    "discovery.wallet": `http://${devHost}:3002/local/authn`,
+    "discovery.authn.endpoint": `http://${devHost}:3002/api/local/authn?discoveryType=API`,
+    "flow.network": "local",
   },
   testnet: {
     "accessNode.api": "https://access-testnet.onflow.org",
-    "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
+    "discovery.wallet": "https://fcl-discovery.onflow.org/api/testnet/authn",
+    "discovery.authn.endpoint":
+      "https://fcl-discovery.onflow.org/api/testnet/authn?discoveryType=API",
     "flow.network": "testnet",
   },
   mainnet: {
@@ -24,11 +30,5 @@ const configs = {
   },
 };
 
-const getFclConfig = (
-  flowNetwork = Constants.expoConfig.extra?.flowNetwork
-) => {
-  return { ...configs.base, ...configs[flowNetwork] };
-};
-
-const environment = getFclConfig();
-export default environment;
+const flowNetwork = Constants.expoConfig.extra?.flowNetwork;
+export default { ...FLOW_CONFIG.base, ...FLOW_CONFIG[flowNetwork] };

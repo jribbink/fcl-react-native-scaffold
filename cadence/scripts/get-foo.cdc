@@ -1,4 +1,4 @@
-import HelloWorld from "../contracts/HelloWorld.cdc"
+import "HelloWorld"
 
 pub fun main(): String {
   return HelloWorld.foo

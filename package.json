@@ -3,16 +3,23 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "start": "crossenv FLOW_NETWORK=local expo start",
-    "start:testnet": "crossenv FLOW_NETWORK=testnet expo start",
-    "start:mainnet": "crossenv FLOW_NETWORK=mainnet expo start"
+    "dev:local": "concurrently \"cross-env FLOW_NETWORK=local expo start\"  \"npm run flow:dev\" \"npm run flow:emulator\" \"npm run flow:dev-wallet\" --default-input-target 0 --raw",
+    "dev:local:deploy": "flow project deploy --network=emulator --update && cross-env FLOW_NETWORK=local expo start",
+    "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
+    "dev:testnet:deploy": "flow project deploy --network=testnet --update && cross-env FLOW_NETWORK=testnet expo start",
+    "dev:testnet:update": "flow project deploy --network=testnet --update --show-diff",
+    "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start",
+    "flow:dev": "wait-on tcp:8888 tcp:8701 tcp:3000 && flow dev",
+    "flow:emulator": "flow emulator",
+    "flow:dev-wallet": "flow dev-wallet"
   },
   "dependencies": {
-    "@onflow/fcl": "file:../../Downloads/onflow-fcl-1.4.0.tgz",
+    "@onflow/fcl": "file:../fcl-js/packages/fcl/onflow-fcl-1.4.0.tgz",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@types/react": "~18.0.27",
     "expo": "~48.0.18",
     "expo-constants": "~14.2.1",
+    "expo-linking": "~4.0.1",
     "expo-status-bar": "~1.4.4",
     "expo-web-browser": "~12.1.1",
     "react": "18.2.0",
@@ -23,8 +30,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@onflow/typedefs": "^1.1.0",
+    "babel-plugin-inline-import": "^3.0.0",
+    "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
-    "npm-run-all": "^4.1.5"
+    "wait-on": "^7.0.1"
   },
   "private": true
 }

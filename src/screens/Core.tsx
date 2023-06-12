@@ -7,12 +7,14 @@ import {
   ScrollView,
   TextInput,
   Modal,
-  SafeAreaView,
+  Alert,
 } from "react-native";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAccount } from "../hooks/useAccount";
+import { CompositeSignature } from "@onflow/typedefs";
+import getFoo from "../../cadence/scripts/get-foo.cdc";
 
 export default function Core() {
   const user = useCurrentUser();
@@ -102,6 +104,55 @@ export default function Core() {
 
   const [value, onChangeText] = useState("Useless Placeholder");
 
+  console.log(getFoo);
+
+  const commands = [
+    {
+      name: "Execute Transaction",
+      onPress: () => setModalVisible(true),
+    },
+    {
+      name: "Execute Script",
+      onPress: () =>
+        fcl
+          .query({ cadence: getFoo })
+          .then((res) =>
+            Alert.alert("Script executed", `The value of foo is ${res}`)
+          ),
+    },
+    {
+      name: "Sign User Message",
+      onPress: () =>
+        fcl.currentUser
+          .signUserMessage("12345678")
+          .then((signatures: CompositeSignature[]) => {
+            Alert.alert(
+              "User Signature Success",
+              signatures
+                .map(
+                  (sig) =>
+                    `addr: ${sig.addr}, keyId: ${sig.keyId}, message: 0x12345678\n\n${sig.signature}`
+                )
+                .join("\n\n")
+            );
+          })
+          .catch((err) => {
+            Alert.alert("User Signature Failed");
+          }),
+    },
+    {
+      name: "Get Latest Block",
+      onPress: () =>
+        fcl
+          .block()
+          .then((block) => Alert.alert("Block", JSON.stringify(block))),
+    },
+    {
+      name: "Log Out",
+      onPress: () => fcl.unauthenticate(),
+    },
+  ];
+
   return (
     <>
       <ScrollView style={styles.scrollView}>
@@ -141,40 +192,15 @@ export default function Core() {
         </View>
 
         <View style={{ gap: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 16 }}>Execute Transaction</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => fcl.query({ cadence: "foo.cdc", args: [] })}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 16 }}>Execute Script</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => fcl.query({ cadence: "foo.cdc", args: [] })}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 16 }}>Sign User Message</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => fcl.query({ cadence: "foo.cdc", args: [] })}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 16 }}>Get Latest Block</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => fcl.unauthenticate()}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 16 }}>Log Out</Text>
-          </TouchableOpacity>
+          {commands.map((command) => (
+            <TouchableOpacity
+              key={command.name}
+              onPress={command.onPress}
+              style={styles.button}
+            >
+              <Text style={{ fontSize: 16 }}>{command.name}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
       <Modal
