@@ -3,15 +3,9 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "dev:local": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"npm run flow:dev\" \"npm run flow:emulator\" \"npm run flow:dev-wallet\" --default-input-target 0 --raw",
-    "dev:local:deploy": "flow project deploy --network=emulator --update && cross-env FLOW_NETWORK=local expo start",
+    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"run flow dev-wallet\" --raw",
     "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
-    "dev:testnet:deploy": "flow project deploy --network=testnet --update && cross-env FLOW_NETWORK=testnet expo start",
-    "dev:testnet:update": "flow project deploy --network=testnet --update --show-diff",
-    "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start",
-    "flow:dev": "wait-on tcp:8888 tcp:8701 tcp:3000 && flow dev",
-    "flow:emulator": "flow emulator",
-    "flow:dev-wallet": "flow dev-wallet"
+    "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start"
   },
   "dependencies": {
     "@onflow/fcl": "^1.5.0-alpha.0",

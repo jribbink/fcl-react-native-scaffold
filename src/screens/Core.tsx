@@ -83,14 +83,6 @@ export default function Core() {
       flex: 1,
       flexDirection: "column",
     },
-    textInput: {
-      width: "100%",
-      height: 40,
-      marginBottom: 10,
-      borderColor: "white",
-      borderWidth: 1,
-      borderRadius: 5,
-    },
     button: {
       width: "100%",
       flexDirection: "row",
@@ -220,7 +212,14 @@ export default function Core() {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>What to set HelloWorld.foo to?</Text>
             <TextInput
-              style={styles.textInput}
+              style={{
+                width: "100%",
+                height: 40,
+                marginBottom: 10,
+                borderColor: "white",
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
               onChangeText={setFooInput}
               value={fooInput}
             />

@@ -12,21 +12,6 @@ export default function WalletDiscoveryServiceCard({
   const name = provider?.name || "Unknown";
   const icon = provider?.icon || "https://placekitten.com/200/200";
 
-  const styles = StyleSheet.create({
-    cardContainer: {},
-    card: {},
-    icon: {
-      width: 50,
-      height: 50,
-      borderRadius: 5,
-      marginRight: 15,
-    },
-    text: {
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-  });
-
   return (
     <View style={{ marginVertical: 10, flexDirection: "row" }}>
       <TouchableOpacity
@@ -49,8 +34,23 @@ export default function WalletDiscoveryServiceCard({
           elevation: 5,
         }}
       >
-        <Image source={{ uri: icon }} style={styles.icon} />
-        <Text style={styles.text}>{name}</Text>
+        <Image
+          source={{ uri: icon }}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 5,
+            marginRight: 15,
+          }}
+        />
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600",
+          }}
+        >
+          {name}
+        </Text>
       </TouchableOpacity>
     </View>
   );
