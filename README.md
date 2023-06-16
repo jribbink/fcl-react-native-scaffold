@@ -27,7 +27,7 @@ npm install
 3. Run the app in development mode to verify installation
 
 ```sh
-npm run dev
+npm run dev:local
 ```
 
 Congratulations! You've successfully installed the FCL React Native Scaffold!
@@ -38,4 +38,5 @@ Congratulations! You've successfully installed the FCL React Native Scaffold!
 - Custom FCL hooks
 - FCL authentication
 - Cadence file loading
-- TODO: fill in features
+- Contract deployment
+- Local development environment
