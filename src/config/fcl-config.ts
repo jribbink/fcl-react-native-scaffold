@@ -24,20 +24,21 @@ const FLOW_CONFIG = {
   // These are the environment specific configurations for FCL
   local: {
     "accessNode.api": `http://localhost:8888`,
-    "discovery.wallet": `http://${devHost}:3002/local/authn`,
-    "discovery.authn.endpoint": `http://${devHost}:3002/api/local/authn`,
+    "discovery.wallet": `http://${devHost}:8701/api/authn`,
+    "discovery.wallet.method": "HTTP/POST",
+    "discovery.authn.endpoint": `http://${devHost}:8701/api/discovery`,
     "flow.network": "local",
   },
   testnet: {
     "accessNode.api": "https://access-testnet.onflow.org",
-    "discovery.wallet": "https://fcl-discovery.onflow.org/api/testnet/authn",
     "discovery.authn.endpoint":
-      "https://fcl-discovery.onflow.org/api/testnet/authn?discoveryType=API",
+      "https://fcl-discovery.onflow.org/api/testnet/authn",
     "flow.network": "testnet",
   },
   mainnet: {
     "accessNode.api": "https://access-mainnet-beta.onflow.org",
-    "discovery.wallet": "https://fcl-discovery.onflow.org/mainnet/authn",
+    "discovery.authn.endpoint":
+      "https://fcl-discovery.onflow.org/api/mainnet/authn",
     "flow.network": "mainnet",
   },
 };

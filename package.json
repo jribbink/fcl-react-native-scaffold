@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"flow dev-wallet\" --raw --kill-others",
+    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"flow dev-wallet\" --raw",
     "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
     "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start"
   },
@@ -13,8 +13,6 @@
     "@types/react": "~18.0.27",
     "expo": "~48.0.18",
     "expo-constants": "~14.2.1",
-    "expo-linking": "~4.0.1",
-    "expo-status-bar": "~1.4.4",
     "expo-web-browser": "~12.1.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
