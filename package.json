@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "dev:local": "concurrently \"cross-env FLOW_NETWORK=local expo start\"  \"npm run flow:dev\" \"npm run flow:emulator\" \"npm run flow:dev-wallet\" --default-input-target 0 --raw",
+    "dev:local": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"npm run flow:dev\" \"npm run flow:emulator\" \"npm run flow:dev-wallet\" --default-input-target 0 --raw",
     "dev:local:deploy": "flow project deploy --network=emulator --update && cross-env FLOW_NETWORK=local expo start",
     "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
     "dev:testnet:deploy": "flow project deploy --network=testnet --update && cross-env FLOW_NETWORK=testnet expo start",
@@ -14,7 +14,7 @@
     "flow:dev-wallet": "flow dev-wallet"
   },
   "dependencies": {
-    "@onflow/fcl": "file:../fcl-js/packages/fcl/onflow-fcl-1.4.0.tgz",
+    "@onflow/fcl": "^1.5.0-alpha.0",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@types/react": "~18.0.27",
     "expo": "~48.0.18",
@@ -24,7 +24,6 @@
     "expo-web-browser": "~12.1.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
-    "react-native-svg": "13.4.0",
     "typescript": "^4.9.4"
   },
   "devDependencies": {

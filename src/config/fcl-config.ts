@@ -11,9 +11,9 @@ const FLOW_CONFIG = {
 
   // These are the environment specific configurations for FCL
   local: {
-    "accessNode.api": `http://${devHost}:8888`,
+    "accessNode.api": `http://localhost:8888`,
     "discovery.wallet": `http://${devHost}:3002/local/authn`,
-    "discovery.authn.endpoint": `http://${devHost}:3002/api/local/authn?discoveryType=API`,
+    "discovery.authn.endpoint": `http://${devHost}:3002/api/local/authn`,
     "flow.network": "local",
   },
   testnet: {

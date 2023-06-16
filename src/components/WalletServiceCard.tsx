@@ -1,7 +1,7 @@
 import { Service } from "@onflow/typedefs";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function ServiceCard({
+export default function WalletDiscoveryServiceCard({
   service,
   onPress,
 }: {
@@ -13,21 +13,8 @@ export default function ServiceCard({
   const icon = provider?.icon || "https://placekitten.com/200/200";
 
   const styles = StyleSheet.create({
-    cardContainer: {
-      marginVertical: 10,
-      flexDirection: "row",
-    },
-    card: {
-      flexDirection: "row",
-      backgroundColor: "lightgrey",
-      alignItems: "center",
-      justifyContent: "flex-start",
-      shadowColor: "#000",
-      width: "100%",
-      padding: 10,
-      borderRadius: 10,
-      borderWidth: 1,
-    },
+    cardContainer: {},
+    card: {},
     icon: {
       width: 50,
       height: 50,
@@ -41,8 +28,27 @@ export default function ServiceCard({
   });
 
   return (
-    <View style={styles.cardContainer}>
-      <TouchableOpacity onPress={onPress} style={styles.card}>
+    <View style={{ marginVertical: 10, flexDirection: "row" }}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          backgroundColor: "white",
+          width: "100%",
+          padding: 10,
+          borderRadius: 10,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 6,
+          elevation: 5,
+        }}
+      >
         <Image source={{ uri: icon }} style={styles.icon} />
         <Text style={styles.text}>{name}</Text>
       </TouchableOpacity>

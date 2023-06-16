@@ -1,5 +1,5 @@
 import { Text } from "react-native";
 
-export default function Empty() {
+export default function NoWalletsView() {
   return <Text>No wallets found</Text>;
 }

@@ -12,14 +12,70 @@ import {
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useState } from "react";
-import { useAccount } from "../hooks/useAccount";
 import { CompositeSignature } from "@onflow/typedefs";
 import getFoo from "../../cadence/scripts/get-foo.cdc";
+import setFoo from "../../cadence/transactions/set-foo.cdc";
 
 export default function Core() {
+  // Hook to obtain information about the current user
   const user = useCurrentUser();
-  const account = useAccount(user?.addr);
+  // Determines whether modal for transaction arguments is visible
   const [modalVisible, setModalVisible] = useState(false);
+  // State for transaction argument (value of foo to set)
+  const [fooInput, setFooInput] = useState("Placeholder text");
+
+  // Commands to be displayed in the UI
+  const commands = [
+    {
+      name: "Execute Transaction",
+      onPress: () => setModalVisible(true),
+    },
+    {
+      name: "Execute Script",
+      onPress: () => {
+        fcl
+          .query({
+            cadence: getFoo,
+            args: (arg, t) => [arg(fcl.withPrefix(user?.address), t.Address)],
+          })
+          .then((res) => {
+            Alert.alert("Script executed", `The value of foo is: ${res}`);
+          });
+      },
+    },
+    {
+      name: "Sign User Message",
+      onPress: () => {
+        fcl.currentUser
+          .signUserMessage("12345678")
+          .then((signatures: CompositeSignature[]) => {
+            Alert.alert(
+              "User Signature Success",
+              signatures
+                .map(
+                  (sig) =>
+                    `addr: ${sig.addr}, keyId: ${sig.keyId}, message: 0x12345678\n\n${sig.signature}`
+                )
+                .join("\n\n")
+            );
+          })
+          .catch((err) => {
+            Alert.alert("User Signature Failed");
+          });
+      },
+    },
+    {
+      name: "Get Latest Block",
+      onPress: () =>
+        fcl
+          .block()
+          .then((block) => Alert.alert("Block", JSON.stringify(block))),
+    },
+    {
+      name: "Log Out",
+      onPress: () => fcl.unauthenticate(),
+    },
+  ];
 
   const styles = StyleSheet.create({
     scrollView: {
@@ -102,57 +158,6 @@ export default function Core() {
     },
   });
 
-  const [value, onChangeText] = useState("Useless Placeholder");
-
-  console.log(getFoo);
-
-  const commands = [
-    {
-      name: "Execute Transaction",
-      onPress: () => setModalVisible(true),
-    },
-    {
-      name: "Execute Script",
-      onPress: () =>
-        fcl
-          .query({ cadence: getFoo })
-          .then((res) =>
-            Alert.alert("Script executed", `The value of foo is ${res}`)
-          ),
-    },
-    {
-      name: "Sign User Message",
-      onPress: () =>
-        fcl.currentUser
-          .signUserMessage("12345678")
-          .then((signatures: CompositeSignature[]) => {
-            Alert.alert(
-              "User Signature Success",
-              signatures
-                .map(
-                  (sig) =>
-                    `addr: ${sig.addr}, keyId: ${sig.keyId}, message: 0x12345678\n\n${sig.signature}`
-                )
-                .join("\n\n")
-            );
-          })
-          .catch((err) => {
-            Alert.alert("User Signature Failed");
-          }),
-    },
-    {
-      name: "Get Latest Block",
-      onPress: () =>
-        fcl
-          .block()
-          .then((block) => Alert.alert("Block", JSON.stringify(block))),
-    },
-    {
-      name: "Log Out",
-      onPress: () => fcl.unauthenticate(),
-    },
-  ];
-
   return (
     <>
       <ScrollView style={styles.scrollView}>
@@ -179,14 +184,16 @@ export default function Core() {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ fontSize: 14 }}>Address</Text>
-            <Text style={{ fontSize: 14 }}>{user?.addr}</Text>
+            <Text style={{ fontSize: 14 }}>
+              {user?.address ?? "Loading..."}
+            </Text>
           </View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ fontSize: 14 }}>Balance</Text>
             <Text style={{ fontSize: 14 }}>
-              {account ? `${account.balance / 10 ** 8} FLOW` : "Loading..."}
+              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
             </Text>
           </View>
         </View>
@@ -214,8 +221,8 @@ export default function Core() {
             <Text style={styles.modalText}>What to set HelloWorld.foo to?</Text>
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => onChangeText(text)}
-              value={value}
+              onChangeText={setFooInput}
+              value={fooInput}
             />
             <View style={{ flexDirection: "row", gap: 5 }}>
               <Pressable
@@ -226,7 +233,15 @@ export default function Core() {
               </Pressable>
               <Pressable
                 style={[styles.buttonModal, styles.buttonSend, { flex: 1 }]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={async () => {
+                  fcl.mutate({
+                    cadence: setFoo,
+                    args: (arg, t) => [arg(fooInput, t.String)],
+                    limit: 999,
+                  });
+
+                  setModalVisible(!modalVisible);
+                }}
               >
                 <Text style={styles.textStyle}>Send TX</Text>
               </Pressable>
