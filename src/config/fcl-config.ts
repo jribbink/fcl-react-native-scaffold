@@ -1,6 +1,18 @@
 import Constants from "expo-constants";
 
 const devHost = Constants.expoConfig.extra?.devHost;
+const flowNetwork = Constants.expoConfig.extra?.flowNetwork;
+if (!flowNetwork) {
+  throw new Error(
+    "No Flow network specified! Please check you environment variables - are you sure you ran the correct NPM script?"
+  );
+} else if (
+  flowNetwork !== "local" &&
+  flowNetwork !== "testnet" &&
+  flowNetwork !== "mainnet"
+) {
+  throw new Error(`Network "${flowNetwork}" is not supported!`);
+}
 
 const FLOW_CONFIG = {
   // This is the base configuration for FCL shared across all environments
@@ -30,5 +42,4 @@ const FLOW_CONFIG = {
   },
 };
 
-const flowNetwork = Constants.expoConfig.extra?.flowNetwork;
 export default { ...FLOW_CONFIG.base, ...FLOW_CONFIG[flowNetwork] };

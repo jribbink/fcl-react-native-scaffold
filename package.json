@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"run flow dev-wallet\" --raw",
+    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"flow dev-wallet\" --raw --kill-others",
     "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
     "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start"
   },
