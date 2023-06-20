@@ -215,9 +215,10 @@ export default function Core() {
                 width: "100%",
                 height: 40,
                 marginBottom: 10,
-                borderColor: "white",
+                borderColor: "black",
                 borderWidth: 1,
                 borderRadius: 5,
+                padding: 5,
               }}
               onChangeText={setFooInput}
               value={fooInput}
