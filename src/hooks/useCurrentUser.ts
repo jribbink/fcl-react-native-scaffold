@@ -5,7 +5,15 @@ import { useAccount } from "./useAccount";
 
 export function useCurrentUser() {
   const [user, setUser] = useState<CurrentUser | null>(null);
-  const account = useAccount(user?.addr);
+  const { account, error } = useAccount(user?.addr);
+
+  useEffect(() => {
+    // If account is invalid, make sure FCL is unauthenticated
+    // This can happen if the dev wallet is restarted
+    if (error) {
+      fcl.unauthenticate();
+    }
+  }, [error]);
 
   useEffect(() => {
     const unsubscribe = fcl.currentUser().subscribe((user) => {

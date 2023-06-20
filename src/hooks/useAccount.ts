@@ -4,8 +4,11 @@ import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 
 export function useAccount(address: string | null = null) {
   const [account, setAccount] = useState<Account | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    setError(null);
+
     if (address == null) {
       setAccount(null);
       return;
@@ -14,8 +17,11 @@ export function useAccount(address: string | null = null) {
     fcl
       .account(address)
       .then(setAccount)
-      .catch(() => setAccount(undefined));
+      .catch(() => {
+        setAccount(null);
+        setError(new Error("Failed to fetch account"));
+      });
   }, [address]);
 
-  return account;
+  return { account, error };
 }
