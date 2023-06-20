@@ -1,39 +1,15 @@
 pub contract HelloWorld {
-  pub let fooPathPrivate: StoragePath
-  pub let fooPathPublic: PublicPath
+  pub var foo: String
 
-  pub resource interface FooPublic {
-    pub fun getFoo(): String
-  }
-  
-  pub resource Foo: FooPublic {
-    access(self) var foo: String
-
-    pub fun getFoo(): String {
-      return self.foo
-    }
-    
-    pub fun setFoo(_ foo: String) {
-      self.foo = foo
-    }
-
-    init(_ foo: String) {
-      self.foo = foo
-    }
+  pub fun setFoo(_ foo: String) {
+    self.foo = foo
   }
 
-  pub fun createFoo(_ foo: String): @Foo {
-    return <- create Foo(foo)
-  }
-
-  pub fun check(_ addr: Address): Bool {
-    return getAccount(addr)
-      .getCapability(HelloWorld.fooPathPublic)
-      .check<&HelloWorld.Foo{FooPublic}>()
+  pub fun getFoo(): String {
+    return self.foo
   }
 
   init() {
-    self.fooPathPrivate = /storage/Foo
-    self.fooPathPublic = /public/Foo
+    self.foo = "Foo has not been set yet"
   }
 }

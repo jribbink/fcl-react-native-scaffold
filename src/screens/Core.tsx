@@ -36,7 +36,6 @@ export default function Core() {
         fcl
           .query({
             cadence: getFoo,
-            args: (arg, t) => [arg(fcl.withPrefix(user?.address), t.Address)],
           })
           .then((res) => {
             Alert.alert("Script executed", `The value of foo is: ${res}`);
