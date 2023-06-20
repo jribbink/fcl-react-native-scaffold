@@ -10,6 +10,7 @@ This particular scaffold uses [Expo](https://expo.io/) but it can be easily modi
 
 - [Node.js](https://nodejs.org/en/)
 - [Flow CLI](https://docs.onflow.org/flow-cli/install/)
+- [Android Studio](https://developer.android.com/studio) (for Android development) or [Xcode](https://developer.apple.com/xcode/) (for iOS development)
 - [Cadence VS Code Extension](https://marketplace.visualstudio.com/items?itemName=onflow.cadence) (optional, but recommended)
 
 ### Installation
