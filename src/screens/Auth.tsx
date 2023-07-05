@@ -12,7 +12,6 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import NoWalletsView from "../components/NoWalletsView";
 import WalletServiceCard from "../components/WalletServiceCard";
 import WalletDiscoveryWrapper from "../components/WalletDiscoveryWrapper";
-import {FlowApp} from "./Flow"
 
 export default function Auth() {
   return (
@@ -44,7 +43,7 @@ export default function Auth() {
       >
         Please choose a wallet to continue
       </Text>
-      <FlowApp />
+      <Button onPress={fcl.logIn} title="Log In"/>
 
       <fcl.ServiceDiscovery
         fcl={fcl}
