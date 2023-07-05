@@ -24,8 +24,15 @@ const FLOW_CONFIG = {
   // These are the environment specific configurations for FCL
   local: {
     "accessNode.api": `http://${devHost}:8888`,
-    "discovery.wallet": `http://${devHost}:8701/api/authn`,
-    "discovery.wallet.method": "HTTP/POST",
+
+    // for DEEPLINK
+    "discovery.wallet": `http://${devHost}:8701/fcl/authn`,
+    "discovery.wallet.method": "MOBILE_BROWSER/DEEPLINK",
+
+    // for POST/HTTP
+    // "discovery.wallet": `http://${devHost}:8701/api/authn`,
+    // "discovery.wallet.method": "HTTP/POST",
+
     "discovery.authn.endpoint": `http://${devHost}:8701/api/discovery`,
     "flow.network": "local",
   },

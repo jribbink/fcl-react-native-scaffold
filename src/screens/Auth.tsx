@@ -43,6 +43,7 @@ export default function Auth() {
       >
         Please choose a wallet to continue
       </Text>
+      <Button onPress={fcl.logIn} title="Log In"/>
 
       <fcl.ServiceDiscovery
         fcl={fcl}
