@@ -27,7 +27,7 @@ const FLOW_CONFIG = {
 
     // for DEEPLINK
     "discovery.wallet": `http://${devHost}:8701/fcl/authn`,
-    "discovery.wallet.method": "MOBILE_BROWSER/DEEPLINK",
+    "discovery.wallet.method": "DEEPLINK/RPC",
 
     // for POST/HTTP
     // "discovery.wallet": `http://${devHost}:8701/api/authn`,
